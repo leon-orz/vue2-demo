@@ -20,7 +20,7 @@ Vue.use(ElementUI, {
 
 // 本地存储插件配置
 Vue.use(VueLS, {
-  namespace: 'kaibo_ls',
+  namespace: 'kaibo_ls_',
   name: 'ls',
   storage: 'session',
 })

@@ -34,7 +34,6 @@
 </template>
 
 <script>
-import { LoginApi } from '@/api/base'
 export default {
   name: 'Login',
   data() {
@@ -49,22 +48,18 @@ export default {
       },
     }
   },
-  created() {
-    console.log('组件实例创建完成')
-  },
-  mounted() {
-    console.log('DOM挂载完成')
-  },
+  created() {},
+  mounted() {},
   methods: {
     handleLogin() {
       this.$refs.form.validate(async valid => {
         if (valid) {
           try {
-            await this.$store.dispatch('login', this.form)
+            await this.$store.dispatch('user/login', this.form)
             this.$message.success('登录成功')
-            this.$router.push('/home')
+            this.$router.push('/')
           } catch (error) {
-            this.$message.error(error.message || '登录失败')
+            this.$message.error('登录失败')
           }
         } else {
           console.log('表单验证失败')
@@ -92,7 +87,7 @@ export default {
   width: 100%;
   height: 100%;
   background: url(../../assets//img/login/bg.png) no-repeat center;
-  background-size: cover;
+  background-size: 100% 100%;
 
   position: relative;
 
@@ -101,8 +96,8 @@ export default {
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
-    width: 400px;
-    padding: 50px;
+    min-width: 25vw;
+    min-height: 50vh;
     background: #fff;
     border-radius: 20px;
     border: 1px solid rgba(36, 164, 226, 0.2);
@@ -110,19 +105,22 @@ export default {
 
     display: flex;
     flex-direction: column;
-    align-items: center;
 
     .login-title {
-      text-align: center;
+      display: flex;
+      justify-content: center;
+      align-items: center;
 
       img {
-        max-width: 100%;
+        width: 80%;
+        height: 10%;
+        margin-top: 10%;
       }
     }
 
     .login-form {
-      margin-top: 30px;
       flex-grow: 1;
+      padding: 10% 15%;
 
       .login-form-tip {
         display: inline-block;
@@ -131,7 +129,7 @@ export default {
         line-height: 1.7;
         color: #409eff;
         border-bottom: 2px solid #409eff;
-        margin-bottom: 10px;
+        margin-bottom: 20px;
       }
     }
   }

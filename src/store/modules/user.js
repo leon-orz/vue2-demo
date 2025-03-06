@@ -1,81 +1,51 @@
-import LoginApi from '@/api/base'
-import { TOKEN_KEY, USER_INFO_KEY } from '@/constants'
-
-const storageHelper = {
-  getItem(key) {
-    try {
-      return JSON.parse(localStorage.getItem(key))
-    } catch (e) {
-      return localStorage.getItem(key)
-    }
-  },
-  setItem(key, value) {
-    typeof value === 'string' 
-      ? localStorage.setItem(key, value)
-      : localStorage.setItem(key, JSON.stringify(value))
-  },
-  removeItem(key) {
-    localStorage.removeItem(key)
-  }
-}
+import Vue from 'vue'
+import { LoginApi } from '@/api/base.js'
 
 export default {
   namespaced: true,
-  state: () => ({
-    token: storageHelper.getItem(TOKEN_KEY) || '',
-    userInfo: storageHelper.getItem(USER_INFO_KEY) || null,
-    error: null,
-  }),
+  state: {
+    userInfo: null,
+    token: null,
+  },
   mutations: {
-    SET_TOKEN(state, token) {
-      state.token = token
-      storageHelper.setItem(TOKEN_KEY, token)
-    },
     SET_USER_INFO(state, userInfo) {
       state.userInfo = userInfo
-      storageHelper.setItem(USER_INFO_KEY, userInfo)
+      Vue.ls.set('user_info', userInfo)
     },
-    LOGOUT(state) {
-      state.token = ''
-      state.userInfo = null
-      storageHelper.removeItem(TOKEN_KEY)
-      storageHelper.removeItem(USER_INFO_KEY)
+    SET_TOKEN(state, token) {
+      state.token = token
+      Vue.ls.set('access_token', token)
     },
   },
   actions: {
-    /**
-     * 用户登录
-     * @async
-     * @param {Object} context - Vuex上下文
-     * @param {Object} credentials - 登录凭证
-     * @throws {Error} 登录失败时抛出错误
-     */
-    async login({ commit }, credentials) {
-      commit('SET_ERROR', null)
+    async login({ commit }, { account, password }) {
       try {
-        const res = await LoginApi(credentials)
-        commit('SET_TOKEN', res.data.token)
-        commit('SET_USER_INFO', res.data.user)
+        const res = await LoginApi({ account, password })
+        if (res?.status === 100) {
+          if (!res.data?.token) {
+            throw new Error('登录凭证缺失')
+          }
+          const { token, ...userInfo } = res.data
+          commit('SET_USER_INFO', userInfo)
+          commit('SET_TOKEN', token)
+        } else {
+          throw new Error(res?.message || '登录失败')
+        }
+
+        return Promise.resolve(res)
       } catch (error) {
-        commit('SET_TOKEN', '')
         commit('SET_USER_INFO', null)
-        commit('SET_ERROR', {
-          message: '登录失败',
-          details: error.response?.data?.message || error.message,
-          timestamp: new Date().toISOString()
-        })
-        throw error
+        commit('SET_TOKEN', null)
+
+        return Promise.reject(new Error(error.message || '登录异常'))
       }
     },
-    /**
-     * 清除认证错误信息
-     * @param {Object} context - Vuex上下文
-     */
-    clearError({ commit }) {
-      commit('SET_ERROR', null)
-    },
     logout({ commit }) {
-      commit('LOGOUT')
+      commit('SET_USER_INFO', null)
+      commit('SET_TOKEN', null)
+      Vue.ls.remove('user_info')
+      Vue.ls.remove('access_token')
     },
   },
+  getters: {},
 }
