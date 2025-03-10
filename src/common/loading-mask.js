@@ -1,30 +1,32 @@
-import ElementUI from 'element-ui'
-
-// 全局loading实例和请求计数器
-let loadingInstance = null
+import { Loading } from 'element-ui';
 let loadingCount = 0
+let loading
 
-// 启动加载效果
-export const startLoading = (options = {}) => {
-  if (loadingCount === 0) {
-    loadingInstance = ElementUI.Loading.service({
-      lock: true,
-      text: '加载中...',
-      spinner: 'el-icon-loading',
-      background: 'rgba(0, 0, 0, 0.7)',
-      ...options,
-    })
-  }
-  loadingCount++
+const startLoading = () => {
+  loading = Loading.service({
+    lock: true,
+    // text: '加载中...',
+    background: 'rgba(0, 0, 0, 0.8)'
+  })
 }
 
-// 关闭加载效果
-export const closeLoading = () => {
-  if (loadingCount > 0) {
-    loadingCount--
-    if (loadingCount === 0 && loadingInstance) {
-      loadingInstance.close()
-      loadingInstance = null
-    }
+const endLoading = () => {
+  loading.close()
+}
+
+export const showLoading = () => {
+  if (loadingCount === 0) {
+    startLoading()
+  }
+  loadingCount += 1
+}
+
+export const hideLoading = () => {
+  if (loadingCount <= 0) {
+    return
+  }
+  loadingCount -= 1
+  if (loadingCount === 0) {
+    endLoading()
   }
 }

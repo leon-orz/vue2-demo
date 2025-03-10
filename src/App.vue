@@ -4,19 +4,7 @@
   </div>
 </template>
 
-<script>
-export default {
-  name: 'App',
-  data() {
-    return {
-      message: 'Hello Vue!',
-    }
-  },
-  methods: {},
-}
-</script>
-
-<style lang="less" scoped>
+<style lang="less">
 #app {
   width: 100vw;
   height: 100vh;

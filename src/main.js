@@ -1,40 +1,53 @@
+// 核心依赖与第三方库
 import Vue from 'vue'
-import App from './App.vue'
 
-// 核心配置
-Vue.config.productionTip = false
+// UI框架与工具库
+import ElementUI from 'element-ui'
+import 'element-ui/lib/theme-chalk/index.css'
+import moment from 'moment'
+import VueLs from 'vue-ls'
 
-// 路由和状态管理
+// 应用模块
 import router from './router'
 import store from './store'
+import api from './api/index'
+import '@/styles/index.less'
+import App from './App.vue'
 
-// 第三方库引入
-import ElementUI from 'element-ui'
-import VueLS from 'vue-ls'
-import moment from 'moment'
+// 插件配置
+const configurePlugins = () => {
+  // UI组件库
+  Vue.use(ElementUI)
 
-// UI组件库配置
-Vue.use(ElementUI, {
-  size: 'normal',
-})
+  // 本地存储管理
+  Vue.use(VueLs, {
+    namespace: 'kaibo_ls_',
+    name: 'ls',
+    storage: 'session',
+  })
 
-// 本地存储插件配置
-Vue.use(VueLS, {
-  namespace: 'kaibo_ls_',
-  name: 'ls',
-  storage: 'session',
-})
+  // API实例
+  Vue.use(api)
+}
 
-// 全局工具方法挂载
-Vue.prototype.$moment = moment
+// 全局配置
+const setGlobalConfig = () => {
+  Vue.prototype.$moment = moment
+  Vue.config.productionTip = process.env.NODE_ENV !== 'production'
+}
 
-// 样式引入
-import 'element-ui/lib/theme-chalk/index.css'
-import './styles/main.less'
+// 初始化应用
+const initVueApp = () => {
+  new Vue({
+    router,
+    store,
+    render: (h) => h(App),
+    el: '#app',
+  })
+}
 
-// Vue实例初始化
-new Vue({
-  router,
-  store,
-  render: h => h(App),
-}).$mount('#app')
+// 启动流程
+configurePlugins()
+setGlobalConfig()
+initVueApp()
+store.dispatch('user/loadUserData')

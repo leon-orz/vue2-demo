@@ -1,0 +1,123 @@
+.el-menu {
+  background-color: transparent;
+
+  .el-submenu {
+    margin-bottom: 0.8vw;
+  }
+}
+
+.s-menu {
+  overflow: hidden;
+}
+.el-menu-vertical-demo {
+  min-height: 20vw;
+  border-radius: 8px;
+  padding: 1vw 0.5vw;
+  background-color: rgba(255, 255, 255, 0.5);
+
+  .el-submenu__title {
+    width: 9vw;
+    height: 2.5vw;
+    font-weight: bold;
+    line-height: 2.5vw;
+    border-radius: 8px;
+    text-align: left;
+    background-color: rgba(255, 255, 255, 0.4);
+    box-shadow: 0px 3px 6px 0px rgba(0, 0, 0, 0.16);
+  }
+
+  .is-opened {
+    .el-submenu__title {
+      color: #fff;
+      background-color: #30cefb;
+    }
+
+    .el-submenu__title i {
+      color: #fff;
+    }
+  }
+
+  .el-submenu__title i {
+    width: auto;
+  }
+
+  .el-menu-item {
+    min-width: auto;
+    padding: 0 0 0 10px !important;
+  }
+
+  .el-menu-item.is-active {
+    color: #30cefb;
+  }
+}
+
+.form-box {
+  border-bottom: 1px solid #dcdfe6;
+
+  .el-form-item {
+    margin-bottom: 1vw;
+  }
+
+  .el-form-item__label {
+    color: #333;
+  }
+
+  .el-input {
+    width: 10vw;
+  }
+
+  .el-input__inner {
+    background-color: transparent;
+  }
+
+  .el-date-editor .el-range-input {
+    background: transparent;
+  }
+}
+.fillet-form {
+  .el-form-item {
+    margin-bottom: 0px;
+  }
+  .el-input__inner {
+    border-radius: 20px;
+    background-color: #ffffff;
+  }
+  .el-date-editor .el-range-input {
+    border-radius: 20px;
+    background: #ffffff;
+  }
+}
+//表格样式
+.el-table {
+  .el-table--border::after,
+  .el-table--group::after,
+  &::before {
+    background-color: transparent;
+  }
+
+  th.el-table__cell {
+    color: #226193;
+    padding: 0.5vw 0;
+    font-size: 0.8vw;
+    background-color: #e8f4ff;
+  }
+
+  tr {
+    background-color: transparent;
+  }
+
+  td.el-table__cell,
+  th.el-table__cell.is-leaf {
+    border-bottom: none;
+  }
+}
+
+.el-table,
+.el-table__expanded-cell {
+  color: #333;
+  background-color: transparent;
+}
+
+.el-pagination.is-background .el-pager li:not(.disabled).active {
+  background-color: #30cefb;
+}
