@@ -43,7 +43,8 @@ const originalPush = router.push
 router.push = function push(location) {
   return originalPush.call(this, location).catch((err) => err)
 }
-//路由守卫
+
+// 路由守卫
 // no redirect whitelist
 const whiteList = ['/', '/error401', '/error404']
 router.beforeEach((to, from, next) => {
@@ -51,7 +52,7 @@ router.beforeEach((to, from, next) => {
   if (whiteList.includes(to.path)) {
     next()
   } else {
-    if (store.state.user.token) {
+    if (store.getters['user/hasLogin']) {
       next()
     } else {
       next({ path: '/' })

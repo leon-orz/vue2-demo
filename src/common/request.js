@@ -1,8 +1,8 @@
 import axios from 'axios'
 import router from '@/router'
+import store from '@/store'
 import { Message } from 'element-ui'
 import { showLoading, hideLoading } from './loading-mask'
-import store from '@/store'
 
 // 后端接收token
 const TOKEN_KEY = 'X-Auth-Token'

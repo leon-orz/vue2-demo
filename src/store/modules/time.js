@@ -1,23 +1,8 @@
-const state = {
-  currentTime: null,
-}
+const state = {}
 
-const mutations = {
-  SET_CURRENT_TIME(state, time) {
-    state.currentTime = time
-  },
-}
+const mutations = {}
 
-const actions = {
-  updateTime({ commit }) {
-    commit('SET_CURRENT_TIME', new Date().toISOString())
-  },
-  startTimeSync({ commit, dispatch }) {
-    setInterval(() => {
-      dispatch('updateTime')
-    }, 1000)
-  },
-}
+const actions = {}
 
 export default {
   namespaced: true,

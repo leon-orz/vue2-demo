@@ -1,17 +1,26 @@
-// import testComp from './test/test-comp'
+const componentsContext = require.context('./public', false, /\.vue/)
 
-// ./public文件夹内组件将自动注册 文件命名格式为下划线 my-component.vue  组件内需要写name,格式为驼峰 myComponent
-let autoInitComponents = [];
-let Components = require.context("./public", false, /\.vue/);
-Components.keys().forEach((key) => {
-  if (Components(key).default) autoInitComponents.push(Components(key).default);
-});
+const loadComponents = (context) => {
+  const componentsList = []
+  context.keys().forEach((key) => {
+    try {
+      const component = context(key).default
+      if (component?.name) {
+        componentsList.push(component)
+      } else {
+        console.warn(`组件注册失败: ${key} 缺少name属性`)
+      }
+    } catch (error) {
+      console.error(`组件加载错误: ${key}`, error)
+    }
+  })
+  return componentsList
+}
 
-const components = {
-  install: function (Vue) {
-    autoInitComponents.forEach((comp) => {
-      Vue.component(comp.name, comp);
-    });
+const registeredComponents = loadComponents(componentsContext)
+
+export default {
+  install: (Vue) => {
+    registeredComponents.forEach((component) => Vue.component(component.name, component))
   },
-};
-export default components;
+}

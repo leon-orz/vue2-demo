@@ -36,9 +36,16 @@ const actions = {
   },
 }
 
+const getters = {
+  hasLogin: (state) => {
+    return !!state.token || !!Vue.ls.get('token')
+  },
+}
+
 export default {
   namespaced: true,
   state,
   mutations,
   actions,
+  getters,
 }

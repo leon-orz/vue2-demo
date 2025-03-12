@@ -2,7 +2,8 @@
   <div class="page-vessel column" style="width: 100%; height: 100%; padding: 0">
     <div class="content column">
       <div class="flex flex-end align-center">
-        <el-button
+        <time-select></time-select>
+        <!-- <el-button
           v-for="(item, index) in typeData"
           :key="index"
           @click="typeHover(item.code)"
@@ -21,7 +22,7 @@
           end-placeholder="结束时间"
           @change="changeIsFuture"
         >
-        </el-date-picker>
+        </el-date-picker> -->
       </div>
       <div class="flex full-height home-wrap" style="margin-top: 10px">
         <div class="svg-wrap">
@@ -53,7 +54,7 @@ export default {
   name: 'home',
   components: {
     FactoryWindow,
-    FactoryWindowAll
+    FactoryWindowAll,
   },
   data() {
     return {
@@ -61,20 +62,20 @@ export default {
       typeData: [
         {
           desc: '日',
-          code: 'day'
+          code: 'day',
         },
         {
           desc: '周',
-          code: 'week'
+          code: 'week',
         },
         {
           desc: '月',
-          code: 'month'
+          code: 'month',
         },
         {
           desc: '年',
-          code: 'year'
-        }
+          code: 'year',
+        },
       ],
       activeName: 'day',
       mainFactoryTableData: {},
@@ -85,7 +86,7 @@ export default {
       timer: null,
 
       curFactory: '',
-      curData: {}
+      curData: {},
     }
   },
   watch: {
@@ -117,7 +118,7 @@ export default {
           this.queryFactoryEquipment()
         })
       }
-    }
+    },
   },
   created() {
     const startOfDay = this.$moment().startOf('day').format('YYYY-MM-DD HH:mm:ss')
@@ -163,24 +164,24 @@ export default {
         this.$router.push({
           path: '/home-area',
           query: {
-            data: JSON.stringify({ factoryCode: 'factory_one', act: this.activeName, timeR: this.timeR })
-          }
+            data: JSON.stringify({ factoryCode: 'factory_one', act: this.activeName, timeR: this.timeR }),
+          },
         })
       })
       c2.addEventListener('click', () => {
         this.$router.push({
           path: '/home-area',
           query: {
-            data: JSON.stringify({ factoryCode: 'factory_two', act: this.activeName, timeR: this.timeR })
-          }
+            data: JSON.stringify({ factoryCode: 'factory_two', act: this.activeName, timeR: this.timeR }),
+          },
         })
       })
       c3.addEventListener('click', () => {
         this.$router.push({
           path: '/home-area',
           query: {
-            data: JSON.stringify({ factoryCode: 'factory_three', act: this.activeName, timeR: this.timeR })
-          }
+            data: JSON.stringify({ factoryCode: 'factory_three', act: this.activeName, timeR: this.timeR }),
+          },
         })
       })
 
@@ -226,7 +227,7 @@ export default {
           // isFuture: this.isFuture,
           startTime: this.timeR && this.timeR[0] ? this.timeR[0] : '',
           endTime: this.timeR && this.timeR[1] ? this.timeR[1] : '',
-          time: this.typeData.find((item) => item.code == this.activeName).desc
+          time: this.typeData.find((item) => item.code == this.activeName).desc,
         })
         .then((res) => {
           if (res) {
@@ -243,7 +244,7 @@ export default {
           // isFuture: this.isFuture,
           startTime: this.timeR && this.timeR[0] ? this.timeR[0] : '',
           endTime: this.timeR && this.timeR[1] ? this.timeR[1] : '',
-          time: this.typeData.find((item) => item.code == this.activeName).desc
+          time: this.typeData.find((item) => item.code == this.activeName).desc,
         })
         .then((res) => {
           if (res) {
@@ -261,17 +262,17 @@ export default {
     },
     jumpDetail(item) {
       let obj = {
-        orgCode: item.orgCode
+        orgCode: item.orgCode,
       }
 
       this.$router.push({
         path: '/home-area',
         query: {
-          data: JSON.stringify(obj)
-        }
+          data: JSON.stringify(obj),
+        },
       })
-    }
-  }
+    },
+  },
 }
 </script>
 

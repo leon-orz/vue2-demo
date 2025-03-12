@@ -4,9 +4,10 @@
       <img src="@/assets/imgs/login/image1030.png" alt="logo" />
       <span>物流设备管理平台</span>
     </div>
-    <div class="flex">
-      <p>{{ dateTime }}</p>
-      <p @click="outLog()" v-if="$route.name != 'Login'" style="margin-left: 10px">退出登录</p>
+    <div class="flex align-center">
+      <p class="digital-clock">{{ dateTime }}</p>
+      <!-- 非登录页时显示退出按钮 -->
+      <el-button type="primary" size="mini" @click="outLog()" v-if="$route.name != 'Login'">退出登录</el-button>
     </div>
   </div>
 </template>
@@ -21,17 +22,17 @@ export default {
     }
   },
   created() {
-    this.dynamicDate()
+    this.startTimeUpdater()
   },
   methods: {
-    // 动态更新时间显示
-    dynamicDate() {
+    // 启动定时器更新当前时间
+    startTimeUpdater() {
       this.datetimer = setInterval(() => {
-        this.dateTime = new Date().toLocaleString()
+        this.dateTime = this.$moment().format('YYYY-MM-DD HH:mm:ss')
       }, 1000)
     },
 
-    // 退出登录处理
+    // 处理用户退出登录操作
     outLog() {
       this.$store.dispatch('user/logout')
       this.$router.push({ path: '/' })
@@ -46,4 +47,20 @@ export default {
 }
 </script>
 
-<style></style>
+<style lang="less" scoped>
+.digital-clock {
+  color: #333;
+  margin-right: 10px;
+}
+
+::v-deep .el-button--primary {
+  background-color: #30cefb;
+  border-color: #30cefb;
+  transition: all 0.3s ease;
+
+  &:hover {
+    background-color: darken(#30cefb, 10%);
+    border-color: darken(#30cefb, 10%);
+  }
+}
+</style>
